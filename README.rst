@@ -1,4 +1,18 @@
-Goal: be able to query for all points w/in a given radius of given point
+=============================
+Using PostGIS with SQLAlchemy
+=============================
+
+A few of my students wanted to use PostGIS to help them easily query a Postgres
+database for all the points within a certain distance of a given location. 
+Getting them up and running proved a bit of a struggle, so I decided to put
+together a little tutorial for others who might be interested.
+
+The first half of this tutorial covers working with PostGIS in pure SQL, and
+the second half covers using PostGIS in Python with SQLAlchemy, GeoAlchemy2, and
+Flask-SQLAlchemy. If none of the Python bits interest you, then you can still
+learn something from the material before the "Use PostGIS with SQLAlchemy"
+section. :)
+
 
 Prerequisites
 =============
@@ -556,7 +570,7 @@ Helpful StackOverflow Posts
 - `Using ST_DWithin <https://stackoverflow.com/questions/23981056/geoalchemy-st-dwithin-implementation>`_ (It wound up making more sense to use
   `ST_Distance_Sphere instead, but this syntax example was helpful.)
 
-Hope you've found this tutorial helpful! @ me on Twitter or something if you did. You can find the source code for this tutorial here:
+Hope you've found this tutorial helpful! @ me on Twitter or something if you did. :)
 
 
 
