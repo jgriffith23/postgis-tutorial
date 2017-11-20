@@ -275,13 +275,13 @@ Your results should look something like this:
     .. parsed-literal:: 
 
          point_id |   location    | latitude  |  longitude  |                    geo                     
-    ----------+---------------+-----------+-------------+--------------------------------------------
-            1 | San Francisco | 37.773972 |  -122.43129 | 0101000000E1455F419A9B5EC08602B68311E34240
-            4 | Oakland       | 37.804363 | -122.271111 | 01010000007FA5F3E159915EC0658EE55DF5E64240
-            6 | Alameda       |   37.7652 |   -122.2416 | 0101000000ACADD85F768F5EC01973D712F2E14240
-            8 | San Rafael    |   37.9735 |   -122.5311 | 0101000000F5B9DA8AFDA15EC0F853E3A59BFC4240
-            9 | San Bruno     |   37.6305 |   -122.4111 | 0101000000AED85F764F9A5EC062105839B4D04240
-    (5 rows)
+        ----------+---------------+-----------+-------------+--------------------------------------------
+                1 | San Francisco | 37.773972 |  -122.43129 | 0101000000E1455F419A9B5EC08602B68311E34240
+                4 | Oakland       | 37.804363 | -122.271111 | 01010000007FA5F3E159915EC0658EE55DF5E64240
+                6 | Alameda       |   37.7652 |   -122.2416 | 0101000000ACADD85F768F5EC01973D712F2E14240
+                8 | San Rafael    |   37.9735 |   -122.5311 | 0101000000F5B9DA8AFDA15EC0F853E3A59BFC4240
+                9 | San Bruno     |   37.6305 |   -122.4111 | 0101000000AED85F764F9A5EC062105839B4D04240
+        (5 rows)
 
 Sacramento, Los Angeles, and Seattle have all been filtered out, as they should. 
 Hooray!
