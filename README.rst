@@ -129,7 +129,7 @@ To save you some manual typing, I'll show you how to get some seed data from
 a CSV file to start.
 
 First, find yourself a CSV file. You could do a quick search on a site like
-`ProgrammableWeb <https://www.programmableweb.com/`_ for some data that intrugues 
+`ProgrammableWeb <https://www.programmableweb.com/>`_ for some data that intrugues 
 you, or you can copy this CSV-formatted text:
 
 .. parsed-literal::
@@ -569,6 +569,9 @@ Helpful StackOverflow Posts
 
 - `Using ST_DWithin <https://stackoverflow.com/questions/23981056/geoalchemy-st-dwithin-implementation>`_ (It wound up making more sense to use
   `ST_Distance_Sphere instead, but this syntax example was helpful.)
+
+- `Blog post where I got the idea to use a CSV and copy
+  <http://www.kevfoo.com/2012/01/Importing-CSV-to-PostGIS/>`_
 
 Hope you've found this tutorial helpful! @ me on Twitter or something if you did. :)
 
