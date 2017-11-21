@@ -1,7 +1,3 @@
-=============================
-Using PostGIS with SQLAlchemy
-=============================
-
 A few of my students wanted to use PostGIS to help them easily query a Postgres
 database for all the points within a certain distance of a given location. 
 Getting them up and running proved a bit of a struggle, so I decided to put
@@ -129,7 +125,7 @@ To save you some manual typing, I'll show you how to get some seed data from
 a CSV file to start.
 
 First, find yourself a CSV file. You could do a quick search on a site like
-`ProgrammableWeb <https://www.programmableweb.com/>`_ for some data that intrugues 
+`ProgrammableWeb <https://www.programmableweb.com/>`_ for some data that intrigues 
 you, or you can copy this CSV-formatted text:
 
 .. parsed-literal::
@@ -205,7 +201,7 @@ which is the same standard used for GPS. You can read more about `ST_Point` in
 (If you need to use a different coordinate system, you'll need to change the
 spatial reference system identifier (srid) on your column. The `ST_SetSRID function <https://postgis.net/docs/ST_SetSRID.html>`_ can help with that.)
 
-If you select everything from cities, you shuold now see output like this:
+If you select everything from cities, you should now see output like this:
 
 .. parsed-literal::
 
@@ -372,6 +368,19 @@ Python file:
             return City.query.filter(func.ST_Distance_Sphere(City.geo, self.geo) < radius).all()
 
         @classmethod
+        def add_city(cls, location, longitude, latitude):
+            """Put a new city in the database."""
+
+            geo = 'POINT({} {})'.format(longitude, latitude)
+            city = City(location=location,
+                               longitude=longitude,
+                               latitude=latitude,
+                              geo=geo)
+
+            db.session.add(city)
+            db.session.commit()
+
+        @classmethod
         def update_geometries(cls):
             """Using each city's longitude and latitude, add geometry data to db."""
 
@@ -393,7 +402,7 @@ I tried to also use the `UPDATE` statement to add the geometries since I had it
 conveniently typed out, but unfortunately, when I queried for objects in the
 Python terminal, I only got back ``None`` for the `geo` column. I added the
 `update_geometries()` method to create points as strings and add the geometries
-through through SQLAlchemy and GeoAlchemy2. It seems when you do this from
+through SQLAlchemy and GeoAlchemy2. It seems when you do this from
 within the ORM, the geospatial data gets turned into a `WKElement` object when
 it's added to the record.
 
@@ -401,13 +410,10 @@ The `get_cities_within_radius()` method shows the syntax for querying for all
 points within a given radius (our stated goal at the beginning). Let's break it
 down.
 
-- We use `func` to access the `ST_Distance_Sphere` function we used when we
+- SQLAlchemy's `func` lets us access the `ST_Distance_Sphere` function we used when we
   were still working in pure SQL.
 
-- `ST_Distance_Sphere` takes two points: the point you're checking and the 
-  point you're checking against.
-
-- `ST_Distance_Sphere` returns how far apart those points are.
+- `ST_Distance_Sphere` takes two points and returns how far apart those points are.
 
 From here, everything is just SQLAlchemy. We compare the number returned by
 `ST_Distance_Sphere` against the passed radius, use that condition in a 
@@ -526,10 +532,47 @@ in the interactive console:
     <City San Bruno (37.6305, -122.4111)>
     <City San Rafael (37.9735, -122.5311)>
 
-The cities ultimately returned by `get_cities_within_radius()` seem correct
-enough to be getting on with. If you've gotten this far, the congrats: you have
-PostGIS working with Flask and SQLAlchemy!
+    >>> City.add_city("Sausalito", -122.4853, 37.8591)
+    >>> City.add_city("Daly City", -122.4702, 37.6879)
+    >>> City.add_city("San Jose", -121.8863, 37.3382)
+    >>> City.add_city("Vallejo", -122.2566, 38.1041)
+    >>> City.add_city("Orlando", -81.3815, 28.5469)
+    >>> City.add_city("New York City", -73.9603, 40.7666)
 
+    >>> cities_within_ten_miles = City.query.filter(
+    ...     func.ST_Distance_Sphere(City.geo, sf.geo) < ten_miles_in_meters).all()
+    >>> for city in cities_within_ten_miles:
+    ...     print city
+    ...     
+    <City San Francisco (37.773972, -122.43129)>
+    <City Oakland (37.804363, -122.271111)>
+    <City San Bruno (37.6305, -122.4111)>
+    <City Sausalito (37.8591, -122.4853)>
+    <City Daly City (37.6879, -122.4702)>
+
+    >>> # Order the cities by distance from SF.
+    >>> cities_within_ten_miles = City.query.filter(
+    ...     func.ST_Distance_Sphere(City.geo, sf.geo) < ten_miles_in_meters).order_by(
+    ...     func.ST_Distance_Sphere(City.geo, sf.geo)).all()
+
+    >>> for city in cities_within_ten_miles:
+    ...     distance = db.session.query(func.ST_Distance_Sphere(city.geo, sf.geo)).one()[0]
+    ...     print "{} is {} meters from SF".format(city.location, distance)
+    ...     
+    San Francisco is 0.0 meters from SF
+    Daly City is 10164.110173 meters from SF
+    Sausalito is 10588.2148564 meters from SF
+    Oakland is 14475.5833668 meters from SF
+    San Bruno is 16051.9613992 meters from SF
+
+The cities ultimately returned by `get_cities_within_radius()` seem correct
+enough to be getting on with, and when I ordered by the distance apart and printed
+the distances, they seem close. Google Maps says Daly City is a 7.6 mile drive from
+San Francisco, which converts to about 12231 meters. I'd believe that the drive
+would take an extra couple thousand meters (about 1.2 miles) compared to a 
+pure distance measurement.
+
+If you've gotten this far, then congrats: you have PostGIS working with Flask and SQLAlchemy!
 
 Resources
 =========
@@ -572,10 +615,3 @@ Helpful StackOverflow Posts
   <http://www.kevfoo.com/2012/01/Importing-CSV-to-PostGIS/>`_
 
 Hope you've found this tutorial helpful! @ me on Twitter or something if you did. :)
-
-
-
-
-
-
-

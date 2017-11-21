@@ -28,6 +28,19 @@ class City(db.Model):
         return City.query.filter(func.ST_Distance_Sphere(City.geo, self.geo) < radius).all()
 
     @classmethod
+    def add_city(cls, location, longitude, latitude):
+        """Put a new city in the database."""
+
+        geo = 'POINT({} {})'.format(longitude, latitude)
+        city = City(location=location,
+                    longitude=longitude,
+                    latitude=latitude,
+                    geo=geo)
+
+        db.session.add(city)
+        db.session.commit()
+
+    @classmethod
     def update_geometries(cls):
         """Using each city's longitude and latitude, add geometry data to db."""
 
