@@ -167,6 +167,7 @@ After seeding with this information, try selecting everything from the `cities`
 table:
 
 .. code-block:: sql
+   
     SELECT * FROM cities;
 
 You should see output like this:
@@ -201,11 +202,8 @@ uses the `WGS84 <http://gisgeography.com/wgs84-world-geodetic-system/>`_ format,
 which is the same standard used for GPS. You can read more about `ST_Point` in
 `the PostGIS docs <https://postgis.net/docs/ST_Point.html>`_ 
 
-.. note::
-    
-    If you need to use a different coordinate system, you'll need to change the
-    *spatial reference system identifier* (srid) on your column. The `ST_SetSRID 
-    function <https://postgis.net/docs/ST_SetSRID.html>`_ can help with that.
+(If you need to use a different coordinate system, you'll need to change the
+spatial reference system identifier (srid) on your column. The `ST_SetSRID function <https://postgis.net/docs/ST_SetSRID.html>`_ can help with that.)
 
 If you select everything from cities, you shuold now see output like this:
 
@@ -567,15 +565,13 @@ Helpful StackOverflow Posts
 
 - `Usage of ST_SetSRID, etc. <https://gis.stackexchange.com/questions/24486/inserting-point-into-postgis>`_
 
-- `Using ST_DWithin <https://stackoverflow.com/questions/23981056/geoalchemy-st-dwithin-implementation>`_ (It wound up making more sense to use
-  `ST_Distance_Sphere instead, but this syntax example was helpful.)
+- `Using ST_DWithin <https://stackoverflow.com/questions/23981056/geoalchemy-st-dwithin-implementation>`_ 
+  (It wound up making more sense to use ST_Distance_Sphere instead, but this syntax example was helpful.)
 
 - `Blog post where I got the idea to use a CSV and copy
   <http://www.kevfoo.com/2012/01/Importing-CSV-to-PostGIS/>`_
 
 Hope you've found this tutorial helpful! @ me on Twitter or something if you did. :)
-
-
 
 
 
