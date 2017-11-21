@@ -13,7 +13,7 @@ section. :)
 Prerequisites
 =============
 
-You should have both Postgres, Python, pip, and virtualenv installed on your 
+You should havei Postgres, Python, pip, and virtualenv installed on your 
 to complete this tutorial. For the Python bit, I used Python 2.7.
 
 Since PostGIS is the focus of this tutorial, I also assume you have some
