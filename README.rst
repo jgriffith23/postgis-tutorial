@@ -241,7 +241,7 @@ You could also make your point like this:
     INSERT INTO cities (location, latitude, longitude, geo)
     VALUES ('San Rafael', 37.9735, -122.5311, ST_Point(-122.5311, 37.9735));
 
-Here, the `ST_MakePoint` function specifies the vector geometry.
+Here, the `ST_Point` function makes a point out of the longitude and latitude.
 
 
 Query For Points Within a Given Radius
